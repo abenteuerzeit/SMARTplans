@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="icon" href="static/images/favicon.ico">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <title>The Good Old TODO app</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style type="text/css" id="operaUserStyle"></style>
+    <style type="text/css" id="operaUserStyle"></style>
+</head>
+
+<body class="h-full flex flex-col bg-gray-100">
+    <header class="bg-indigo-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">SMART Planner</h1>
+            <span id="time" class="text-sm"></span>
+        </div>
+    </header>
+    <main class="container mx-auto my-8 flex-grow">
+        <button id="showExamples"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded mb-4">Show Example
+            Commitments</button>
+        <div id="examples-modal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+                    aria-hidden="true">&ZeroWidthSpace;</span>
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-indigo-600" stroke="currentColor" fill="none"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">Example
+                                    Commitments</h3>
+                                <div class="mt-2">
+                                    <ul role="list" class="py-4 space-y-4">
+                                        <li class="flex items-start">
+                                            <div class="flex-shrink-0">
+                                                <svg class="h-6 w-6 text-green-500" stroke="currentColor" fill="none"
+                                                    viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="font-bold">Exercise consistently</p>
+                                                <p><strong>Specific:</strong> Go to the gym and complete a full-body
+                                                    workout routine 3 times a week.</p>
+                                                <p><strong>Measurable:</strong> Track the number of gym visits and
+                                                    workouts completed each week.</p>
+                                                <p><strong>Achievable:</strong> I have a gym membership and a balanced
+                                                    work schedule that allows me to allocate time for exercise.</p>
+                                                <p><strong>Relevant:</strong> Maintaining a consistent exercise routine
+                                                    will improve my physical and mental health, which aligns with my
+                                                    goal of living a healthier lifestyle.</p>
+                                                <p><strong>Time-bound:</strong> I will achieve this goal within the next
+                                                    3 months.</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                        <button type="button"
+                            class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:ml-3 sm:w-auto sm:text-sm">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form id="addCommitmentForm" aria-label="Add SMART commitment"
+            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-bold mb-2" for="commitment">I am going to</label>
+                <input
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    type="text" id="commitment" name="commitment" placeholder="Enter your commitment" required="">
+            </div>
+            <details class="mb-4">
+                <summary class="font-bold cursor-pointer">Refine your commitment</summary>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="deadline">Deadline:</label>
+                    <input
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        type="date" id="deadline" name="deadline">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="specific">Specific:</label>
+                    <textarea
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outlineid="
+                        specific"="" name="specific" placeholder="What will you achieve? What will you do?"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="measurable">Measurable:</label>
+                    <textarea
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="measurable" name="measurable"
+                        placeholder="What data will you use to decide whether you've met the goal?"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="achievable">Achievable:</label>
+                    <textarea
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="achievable" name="achievable"
+                        placeholder="Are you sure you can do this? Do you have the right skills and resources?"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-bold mb-2" for="relevant">Relevant:</label>
+                    <textarea
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        id="relevant" name="relevant"
+                        placeholder="Does the goal align with those of your team or organization? How will the result matter?"></textarea>
+                </div>
+            </details>
+            <div class="flex items-center justify-between">
+                <button
+                    class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    type="submit">
+                    Add Commitment
+                </button>
+            </div>
+        </form>
+        <div class="bg-white shadow-md rounded p-6">
+            <h2 class="text-xl font-bold mb-4">Commitments</h2>
+            <ul id="todos" class="space-y-4"></ul>
+        </div>
+    </main>
+    <script>
+        $(document).ready(() => {
+            const updateTime = () => {
+                const datetime = new Date(Date.now());
+                $("#time").text(`${datetime}`);
+            };
+            updateTime();
+            setInterval(updateTime, 1000);
+
+            const examplesModal = $('#examples-modal');
+            const showExamplesButton = $('#showExamples');
+            const closeModalButton = examplesModal.find('button');
+
+            showExamplesButton.on('click', () => {
+                examplesModal.removeClass('hidden');
+            });
+
+            closeModalButton.on('click', () => {
+                examplesModal.addClass('hidden');
+            });
+
+            $(window).on('click', (event) => {
+                if (event.target === examplesModal[0]) {
+                    examplesModal.addClass('hidden');
+                }
+            });
+
+            $('#addCommitmentForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent the form from submitting
+
+                const formData = $(this).serializeArray();
+                let commitmentHTML = '<li class="bg-gray-200 p-4 rounded">';
+
+                formData.forEach(field => {
+                    commitmentHTML += `<p><strong>${field.name}:</strong> ${field.value}</p>`;
+                });
+
+                commitmentHTML += '</li>';
+
+                $('#todos').append(commitmentHTML);
+                $(this)[0].reset();
+            });
+        });
+    </script>
+</body>
+
+</html>
